@@ -14,7 +14,275 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      bloque: {
+        Row: {
+          cantidad_max: number | null
+          fecha_apertura: string | null
+          fecha_cierre: string | null
+          id: number
+          nombre: string
+          total: number | null
+        }
+        Insert: {
+          cantidad_max?: number | null
+          fecha_apertura?: string | null
+          fecha_cierre?: string | null
+          id?: never
+          nombre: string
+          total?: number | null
+        }
+        Update: {
+          cantidad_max?: number | null
+          fecha_apertura?: string | null
+          fecha_cierre?: string | null
+          id?: never
+          nombre?: string
+          total?: number | null
+        }
+        Relationships: []
+      }
+      cliente: {
+        Row: {
+          fuente: string | null
+          id: number
+          telefono: string | null
+        }
+        Insert: {
+          fuente?: string | null
+          id?: never
+          telefono?: string | null
+        }
+        Update: {
+          fuente?: string | null
+          id?: never
+          telefono?: string | null
+        }
+        Relationships: []
+      }
+      empresa: {
+        Row: {
+          cliente_id: number
+          id: number
+          nombre: string
+        }
+        Insert: {
+          cliente_id: number
+          id?: never
+          nombre: string
+        }
+        Update: {
+          cliente_id?: number
+          id?: never
+          nombre?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "empresa_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: true
+            referencedRelation: "cliente"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      estado: {
+        Row: {
+          id: number
+          nombre: string
+        }
+        Insert: {
+          id?: never
+          nombre: string
+        }
+        Update: {
+          id?: never
+          nombre?: string
+        }
+        Relationships: []
+      }
+      pedido: {
+        Row: {
+          bloque_id: number | null
+          cliente_id: number
+          estado_id: number | null
+          fecha_pedido: string
+          id: number
+          total: number | null
+        }
+        Insert: {
+          bloque_id?: number | null
+          cliente_id: number
+          estado_id?: number | null
+          fecha_pedido?: string
+          id?: never
+          total?: number | null
+        }
+        Update: {
+          bloque_id?: number | null
+          cliente_id?: number
+          estado_id?: number | null
+          fecha_pedido?: string
+          id?: never
+          total?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pedido_bloque_id_fkey"
+            columns: ["bloque_id"]
+            isOneToOne: false
+            referencedRelation: "bloque"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pedido_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: false
+            referencedRelation: "cliente"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "pedido_estado_id_fkey"
+            columns: ["estado_id"]
+            isOneToOne: false
+            referencedRelation: "estado"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      persona: {
+        Row: {
+          apellido: string | null
+          cliente_id: number
+          id: number
+          nombre: string
+        }
+        Insert: {
+          apellido?: string | null
+          cliente_id: number
+          id?: never
+          nombre: string
+        }
+        Update: {
+          apellido?: string | null
+          cliente_id?: number
+          id?: never
+          nombre?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "persona_cliente_id_fkey"
+            columns: ["cliente_id"]
+            isOneToOne: true
+            referencedRelation: "cliente"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      producto: {
+        Row: {
+          bloque_id: number | null
+          costo: number
+          id: number
+          justificacion: string | null
+          margen: number | null
+          nombre: string
+          precio_oferta: number | null
+          precio_referencia: number | null
+          sector_id: number | null
+          tamaño: string | null
+        }
+        Insert: {
+          bloque_id?: number | null
+          costo: number
+          id?: never
+          justificacion?: string | null
+          margen?: number | null
+          nombre: string
+          precio_oferta?: number | null
+          precio_referencia?: number | null
+          sector_id?: number | null
+          tamaño?: string | null
+        }
+        Update: {
+          bloque_id?: number | null
+          costo?: number
+          id?: never
+          justificacion?: string | null
+          margen?: number | null
+          nombre?: string
+          precio_oferta?: number | null
+          precio_referencia?: number | null
+          sector_id?: number | null
+          tamaño?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "producto_bloque_id_fkey"
+            columns: ["bloque_id"]
+            isOneToOne: false
+            referencedRelation: "bloque"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "producto_sector_id_fkey"
+            columns: ["sector_id"]
+            isOneToOne: false
+            referencedRelation: "sector"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      producto_pedido: {
+        Row: {
+          pedido_id: number
+          precio_venta: number
+          producto_id: number
+          unidades: number
+        }
+        Insert: {
+          pedido_id: number
+          precio_venta: number
+          producto_id: number
+          unidades?: number
+        }
+        Update: {
+          pedido_id?: number
+          precio_venta?: number
+          producto_id?: number
+          unidades?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "producto_pedido_pedido_id_fkey"
+            columns: ["pedido_id"]
+            isOneToOne: false
+            referencedRelation: "pedido"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "producto_pedido_producto_id_fkey"
+            columns: ["producto_id"]
+            isOneToOne: false
+            referencedRelation: "producto"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sector: {
+        Row: {
+          id: number
+          nombre: string
+        }
+        Insert: {
+          id?: never
+          nombre: string
+        }
+        Update: {
+          id?: never
+          nombre?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
